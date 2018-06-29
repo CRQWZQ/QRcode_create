@@ -56,7 +56,7 @@
 			<h1 class="module-head">解析二维码</h1>
 			<div class="box" id="analytic" style="position: relative;">
 				<h3>长按二维码解析</h3>
-				<img id="showImg" src="tyfo.png"/>
+				<img id="showImg" src="https://img.alicdn.com/tfscom/TB1KWa4coz.BuNjt_bXwu3QmpXa.png"/>
 				<p class="url-box" id="urlBox"></p>
 			</div>
 			<div class="box">
@@ -74,21 +74,25 @@
 		<script type="text/javascript">
 			//扩展移动端长按事件
 			$.fn.longPress = function (fn) {
+
 			　　let timer = null;
 			　　let $this = this;
-			　　for (let i = 0; i < $this.length; i++) {
-				
-				　　$this[i].addEventListener('touchstart', function (event) {
+
+			 	return this.each(function (i,item) {
+			 		
+　                  $(item).on('touchstart', function (event) {
 				　　		timer = setTimeout(fn, 600);
-				　　}, false);
+				　　});
 				
-				　　$this[i].addEventListener('touchend', function (event) {
+				　　$(item).on('touchend', function (event) {
 				　　		clearTimeout(timer);
 				　　}, false);
-			　　}
+
+			 	})
+			　　
 			}
 			//阻止触发默认事件
-			//window.ontouchstart = function (e) { e.preventDefault(); };
+			// window.ontouchstart = function (e) { e.preventDefault(); };
 			//仅对当前元素进行阻止触发默认事件
 			document.getElementById('showImg').ontouchstart = function (e) { e.preventDefault(); };
 			
@@ -108,6 +112,7 @@
 			}
 			
 			$('#showImg').longPress(function(){
+			
 				let str = '<div id="addDiv" style="position:absolute;top:110px;left:50px;z-index:10;background:#000;color:#fff;font-size:16px;text-align:center;width:180px;border-radius:5px;">'+
 				'<p style="border-bottom:1px solid #fff;margin:0;height:50px;line-height:50px;" onclick="alertChange(1)">识别二维码</p>'+
 				'<p style="border-bottom:1px solid #fff;margin:0;height:50px;line-height:50px;" onclick="alertChange(2)">弹出地址</p>'+
@@ -116,12 +121,19 @@
 				'</div>';
 				$('#analytic').append(str);
 			});
+
 			function getUrl(e,param){
 				analyticCode.getUrl(param,e,function(url1,url2){
 					e.nextElementSibling.innerHTML = url1;
 					e.previousElementSibling.src = url2;
 				});
 			}
+			
+
+
+			
+			
+
 		</script>
 	</body>
 </html>
